@@ -37,7 +37,7 @@ fetch('https://cat-photos-api.xyz/upload_cat_photo', {
 
 OR construct a clean API template that works with as many API calls as you need
 ```js
-import API from './index.js'; // Download the JS file
+import API from '@api-blueprints/pathmaker';
 
 const api = new API({
     headers: {
