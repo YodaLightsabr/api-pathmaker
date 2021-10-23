@@ -1,0 +1,12 @@
+{
+  "name": "@api-blueprints/pathmaker",
+  "version": "1.0.0",
+  "description": "Structure and send API calls with ease",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "type": "module",
+  "author": "YodaLightsabr",
+  "license": "ISC"
+}
