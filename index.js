@@ -1,0 +1,169 @@
+import fetch from 'node-fetch';
+
+export const Util = {
+    defaults (defaultObject, newObject) {
+        const object = {};
+        for (const key in defaultObject) {
+            object[key] = defaultObject[key];
+        }
+        for (const key in newObject) {
+            object[key] = newObject[key];
+        }
+        return object;
+    },
+    determineValues (object) {
+        for (const key in object) {
+            if (!key.startsWith('_') && object[key] instanceof Function) {
+                object[key] = object[key]();
+            }
+        }
+        return object;
+    },
+    async resolvePromises (object) {
+        for (const key in object) {
+            if (key instanceof Promise) {
+                object[key] = await object[key];
+            }
+        }
+    },
+    async determineAsyncValues (object) {
+        return await this.resolvePromises(determineValues(object));
+    }
+}
+
+class API {
+    /**
+     * 
+     * @param {Object} object - An object
+     * @param {Object} object.headers - Default headers. Each header must be a key-value pair, where the value is either a string or a function that resolves to a string.
+     * @param {string} object.baseUrl - The base URL for this API. Must not end with '/'
+     * @param {Function} object.parser - Parser function to convert text response to an object. Defaults to JSON.parse
+     */
+    constructor ({ headers, baseUrl, parser = JSON.parse }) {
+        /**
+         * 
+         * @param {*} url - Stuff
+         * @param {*} defaultHeaders 
+         * @returns 
+         */
+        const get = (url, defaultHeaders, target) => {
+            return async (headers) => {
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: Util.defaults(defaultHeaders, headers)
+                });
+                const text = await response.text();
+                const parsed = parser(text);
+                return parsed;
+            }
+        }
+
+        const head = (url, defaultHeaders) => {
+            return async (headers) => {
+                const response = await fetch(url, {
+                    method: 'HEAD',
+                    headers: Util.defaults(defaultHeaders, headers)
+                });
+                const text = await response.text();
+                const parsed = parser(text);
+                return parsed;
+            }
+        }
+
+        const post = (url, defaultHeaders) => {
+            return async (body, headers) => {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: Util.defaults(defaultHeaders, headers),
+                    body: JSON.stringify(body)
+                });
+                const text = await response.text();
+                const parsed = parser(text);
+                return parsed;
+            }
+        }
+
+        const put = (url, defaultHeaders) => {
+            return async (body, headers) => {
+                const response = await fetch(url, {
+                    method: 'PUT',
+                    headers: Util.defaults(defaultHeaders, headers),
+                    body: JSON.stringify(body)
+                });
+                const text = await response.text();
+                const parsed = parser(text);
+                return parsed;
+            }
+        }
+
+        const http_delete = (url, defaultHeaders) => {
+            return async (body, headers) => {
+                const response = await fetch(url, {
+                    method: 'DELETE ',
+                    headers: Util.defaults(defaultHeaders, headers),
+                    body: JSON.stringify(body)
+                });
+                const text = await response.text();
+                const parsed = parser(text);
+                return parsed;
+            }
+        }
+
+        const patch = (url, defaultHeaders) => {
+            return async (body, headers) => {
+                const response = await fetch(url, {
+                    method: 'PATCH',
+                    headers: Util.defaults(defaultHeaders, headers),
+                    body: JSON.stringify(body)
+                });
+                const text = await response.text();
+                const parsed = parser(text);
+                return parsed;
+            }
+        }
+
+        const options = (url, defaultHeaders) => {
+            return async (body, headers) => {
+                const response = await fetch(url, {
+                    method: 'OPTIONS',
+                    headers: Util.defaults(defaultHeaders, headers),
+                    body: JSON.stringify(body)
+                });
+                const text = await response.text();
+                const parsed = parser(text);
+                return parsed;
+            }
+        }
+
+        const handler = {
+            get: function(target, prop, receiver) {
+                const output = (() => {
+                    const path = target.path;
+                    const url = baseUrl + '/' + path.join('/');
+                    if (prop == '_url') return baseUrl + '/' + target.path.join('/');
+                    if (prop == 'get') return get(baseUrl + '/' + target.path.join('/'), Util.determineValues(headers));
+                    if (prop == 'head') return head(baseUrl + '/' + target.path.join('/'), Util.determineValues(headers));
+                    if (prop == 'post') return post(baseUrl + '/' + target.path.join('/'), Util.determineValues(headers));
+                    if (prop == 'put') return put(baseUrl + '/' + target.path.join('/'), Util.determineValues(headers));
+                    if (prop == 'delete') return http_delete(baseUrl + '/' + target.path.join('/'), Util.determineValues(headers));
+                    if (prop == 'patch') return patch(baseUrl + '/' + target.path.join('/'), Util.determineValues(headers));
+                    if (prop == 'options') return options(baseUrl + '/' + target.path.join('/'), Util.determineValues(headers));
+                    target.path.push(prop);
+                    return new Proxy({ path: path, url: url }, handler);
+                })();
+                target.path = [];
+                this.url = '/';
+                return output;
+            },
+            set: function(target, prop, receiver) {
+                return proxy;
+            }
+        };
+
+        const proxy = new Proxy({ path: [], url: baseUrl }, handler);
+
+        return proxy;
+    }
+}
+
+export default API;
