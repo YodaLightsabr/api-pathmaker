@@ -6,6 +6,8 @@ You need to add an API into your app. There isn't a JS client for it, so you'll 
 
 Construct a messy fetch function to send your request
 ```js
+import fetch from 'node-fetch';
+
 fetch('https://cat-photos-api.xyz/find_cat_photo', {
   method: 'POST',
   headers: {
@@ -35,6 +37,8 @@ fetch('https://cat-photos-api.xyz/upload_cat_photo', {
 
 OR construct a clean API template that works with as many API calls as you need
 ```js
+import API from './index.js'; // Download the JS file
+
 const api = new API({
     headers: {
         'Authorization': 'Bearer UwU-uwu-oWo-0W0',
