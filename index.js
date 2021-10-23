@@ -37,9 +37,10 @@ class API {
      * @param {Object} object - An object
      * @param {Object} object.headers - Default headers. Each header must be a key-value pair, where the value is either a string or a function that resolves to a string.
      * @param {string} object.baseUrl - The base URL for this API. Must not end with '/'
-     * @param {Function} object.parser - Parser function to convert text response to an object. Defaults to JSON.parse
+     * @param {Function} object.output - Parser function to convert text response to an object. Defaults to JSON.parse
+     * @param {Function} object.inputParser - Parser function to convert input to a server-readable format. Defaults to JSON.stringify
      */
-    constructor ({ headers, baseUrl, parser = JSON.parse }) {
+    constructor ({ headers, baseUrl, outputParser = JSON.parse, inputParser = JSON.stringify }) {
         /**
          * 
          * @param {*} url - Stuff
@@ -53,7 +54,7 @@ class API {
                     headers: Util.defaults(defaultHeaders, headers)
                 });
                 const text = await response.text();
-                const parsed = parser(text);
+                const parsed = outputParser(text);
                 return parsed;
             }
         }
@@ -65,7 +66,7 @@ class API {
                     headers: Util.defaults(defaultHeaders, headers)
                 });
                 const text = await response.text();
-                const parsed = parser(text);
+                const parsed = outputParser(text);
                 return parsed;
             }
         }
@@ -75,10 +76,10 @@ class API {
                 const response = await fetch(url, {
                     method: 'POST',
                     headers: Util.defaults(defaultHeaders, headers),
-                    body: JSON.stringify(body)
+                    body: inputParser(body)
                 });
                 const text = await response.text();
-                const parsed = parser(text);
+                const parsed = outputParser(text);
                 return parsed;
             }
         }
@@ -88,10 +89,10 @@ class API {
                 const response = await fetch(url, {
                     method: 'PUT',
                     headers: Util.defaults(defaultHeaders, headers),
-                    body: JSON.stringify(body)
+                    body: inputParser(body)
                 });
                 const text = await response.text();
-                const parsed = parser(text);
+                const parsed = outputParser(text);
                 return parsed;
             }
         }
@@ -101,10 +102,10 @@ class API {
                 const response = await fetch(url, {
                     method: 'DELETE ',
                     headers: Util.defaults(defaultHeaders, headers),
-                    body: JSON.stringify(body)
+                    body: inputParser(body)
                 });
                 const text = await response.text();
-                const parsed = parser(text);
+                const parsed = outputParser(text);
                 return parsed;
             }
         }
@@ -114,10 +115,10 @@ class API {
                 const response = await fetch(url, {
                     method: 'PATCH',
                     headers: Util.defaults(defaultHeaders, headers),
-                    body: JSON.stringify(body)
+                    body: inputParser(body)
                 });
                 const text = await response.text();
-                const parsed = parser(text);
+                const parsed = outputParser(text);
                 return parsed;
             }
         }
@@ -127,10 +128,10 @@ class API {
                 const response = await fetch(url, {
                     method: 'OPTIONS',
                     headers: Util.defaults(defaultHeaders, headers),
-                    body: JSON.stringify(body)
+                    body: inputParser(body)
                 });
                 const text = await response.text();
-                const parsed = parser(text);
+                const parsed = outputParser(text);
                 return parsed;
             }
         }
