@@ -8,5 +8,17 @@
   },
   "type": "module",
   "author": "YodaLightsabr",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YodaLightsabr/api-pathmaker.git"
+  },
+  "keywords": [
+    "apis",
+    "tools"
+  ],
+  "bugs": {
+    "url": "https://github.com/YodaLightsabr/api-pathmaker/issues"
+  },
+  "homepage": "https://github.com/YodaLightsabr/api-pathmaker#readme"
 }
