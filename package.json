@@ -1,0 +1,24 @@
+{
+  "name": "@api-blueprints/pathmaker",
+  "version": "1.0.0",
+  "description": "Structure and send API calls with ease",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "type": "module",
+  "author": "YodaLightsabr",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YodaLightsabr/api-pathmaker.git"
+  },
+  "keywords": [
+    "apis",
+    "tools"
+  ],
+  "bugs": {
+    "url": "https://github.com/YodaLightsabr/api-pathmaker/issues"
+  },
+  "homepage": "https://github.com/YodaLightsabr/api-pathmaker#readme"
+}
