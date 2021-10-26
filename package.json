@@ -1,6 +1,6 @@
 {
   "name": "@api-blueprints/pathmaker",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Structure and send API calls with ease",
   "main": "index.js",
   "scripts": {
