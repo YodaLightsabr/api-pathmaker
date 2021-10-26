@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/YodaLightsabr/api-pathmaker/issues"
   },
-  "homepage": "https://github.com/YodaLightsabr/api-pathmaker#readme"
+  "homepage": "https://github.com/YodaLightsabr/api-pathmaker#readme",
+  "dependencies": {
+    "node-fetch": "^3.0.0"
+  }
 }

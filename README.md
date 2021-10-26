@@ -71,4 +71,4 @@ To send a request that you've constructed, just run `.get()`, `.post()`, `.patch
 
 #### URLs containing HTTP method names
 
-You might have noticed that if you try to access `<baseURL>/route/get` by using `api.route.get.get()`, it won't work. You can work around this by using `api['route/get']` until a fix is released.
+You might have noticed that if you try to access `<baseURL>/route/get` by using `api.route.get.get()`, it won't work. You can work around this by using `api.route._absolute('get')`.

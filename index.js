@@ -149,6 +149,10 @@ class API {
                     if (prop == 'delete') return http_delete(baseUrl + '/' + target.path.join('/'), Util.determineValues(headers));
                     if (prop == 'patch') return patch(baseUrl + '/' + target.path.join('/'), Util.determineValues(headers));
                     if (prop == 'options') return options(baseUrl + '/' + target.path.join('/'), Util.determineValues(headers));
+                    if (prop == '_absolute') return (pathName) => {
+                      path.push(pathName);
+                      return new Proxy({ path: path, url: url }, handler);
+                    }
                     target.path.push(prop);
                     return new Proxy({ path: path, url: url }, handler);
                 })();
