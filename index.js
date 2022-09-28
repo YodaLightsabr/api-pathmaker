@@ -153,6 +153,14 @@ class API {
                       path.push(pathName);
                       return new Proxy({ path: path, url: url }, handler);
                     }
+                    if (prop == 'searchParams') return (searchParams) => {
+                      let params = [];
+                      for (const param in searchParams) {
+                        params.push(`${param}=${encodeURIComponent(searchParams[param])}`);
+                      }
+                      if (params.length) path.push('?' + params.join('&'));
+                      return new Proxy({ path: path, url: url }, handler);
+                    }
                     target.path.push(prop);
                     return new Proxy({ path: path, url: url }, handler);
                 })();

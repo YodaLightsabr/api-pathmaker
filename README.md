@@ -65,6 +65,9 @@ api.upload_cat_photo.post({ url: 'https://my-cat-photos.uwucdn.com/my-cat-photo-
 
 To construct a URL, start by accessing a property on the API instance. Each property acts as a path. To access `<baseURL>/boo/bar`, use `api.foo.bar`. To specify an unknown parameter, use the JavaScript `[]` syntax. For example, you can access `<baseURL>/documents/:documentNumber`, use `api.documents[documentNumber]`.
 
+#### Search params
+New in version 1.2.0, you can use the `.searchParams()` method to attach query params to the end of a url. Just pass in an object of keys and values.
+
 #### Sending a request
 
 To send a request that you've constructed, just run `.get()`, `.post()`, `.patch()`, etc. API Pathmaker works with GET, HEAD, POST, PUT, DELETE, PATCH, and OPTIONS requests. These are all async functions where you can pass in data to send to the API. You can also get the URL of the request without sending it by accessing the `._url` property.
