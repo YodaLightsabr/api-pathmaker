@@ -39,8 +39,9 @@ class API {
      * @param {string} object.baseUrl - The base URL for this API. Must not end with '/'
      * @param {Function} object.output - Parser function to convert text response to an object. Defaults to JSON.parse
      * @param {Function} object.inputParser - Parser function to convert input to a server-readable format. Defaults to JSON.stringify
+     * @param {Function} object.rateLimitHandler - Async function to handle ratelimits.
      */
-    constructor ({ headers, baseUrl, outputParser = JSON.parse, inputParser = JSON.stringify }) {
+    constructor ({ headers, baseUrl, outputParser = JSON.parse, inputParser = JSON.stringify, rateLimitHandler }) {
         /**
          * 
          * @param {*} url - Stuff
@@ -49,6 +50,10 @@ class API {
          */
         const get = (url, defaultHeaders, target) => {
             return async (headers) => {
+            	if (rateLimitHandler instanceof Function) {
+            		let output = rateLimitHandler();
+            		if (output instanceof Promise) await output;
+            	}
                 const response = await fetch(url, {
                     method: 'GET',
                     headers: Util.defaults(defaultHeaders, headers)
@@ -61,6 +66,10 @@ class API {
 
         const head = (url, defaultHeaders) => {
             return async (headers) => {
+            	if (rateLimitHandler instanceof Function) {
+            		let output = rateLimitHandler();
+            		if (output instanceof Promise) await output;
+            	}
                 const response = await fetch(url, {
                     method: 'HEAD',
                     headers: Util.defaults(defaultHeaders, headers)
@@ -73,6 +82,10 @@ class API {
 
         const post = (url, defaultHeaders) => {
             return async (body, headers) => {
+            	if (rateLimitHandler instanceof Function) {
+            		let output = rateLimitHandler();
+            		if (output instanceof Promise) await output;
+            	}
                 const response = await fetch(url, {
                     method: 'POST',
                     headers: Util.defaults(defaultHeaders, headers),
@@ -86,6 +99,10 @@ class API {
 
         const put = (url, defaultHeaders) => {
             return async (body, headers) => {
+            	if (rateLimitHandler instanceof Function) {
+            		let output = rateLimitHandler();
+            		if (output instanceof Promise) await output;
+            	}
                 const response = await fetch(url, {
                     method: 'PUT',
                     headers: Util.defaults(defaultHeaders, headers),
@@ -99,6 +116,10 @@ class API {
 
         const http_delete = (url, defaultHeaders) => {
             return async (body, headers) => {
+            	if (rateLimitHandler instanceof Function) {
+            		let output = rateLimitHandler();
+            		if (output instanceof Promise) await output;
+            	}
                 const response = await fetch(url, {
                     method: 'DELETE ',
                     headers: Util.defaults(defaultHeaders, headers),
@@ -112,6 +133,10 @@ class API {
 
         const patch = (url, defaultHeaders) => {
             return async (body, headers) => {
+            	if (rateLimitHandler instanceof Function) {
+            		let output = rateLimitHandler();
+            		if (output instanceof Promise) await output;
+            	}
                 const response = await fetch(url, {
                     method: 'PATCH',
                     headers: Util.defaults(defaultHeaders, headers),
@@ -125,6 +150,10 @@ class API {
 
         const options = (url, defaultHeaders) => {
             return async (body, headers) => {
+            	if (rateLimitHandler instanceof Function) {
+            		let output = rateLimitHandler();
+            		if (output instanceof Promise) await output;
+            	}
                 const response = await fetch(url, {
                     method: 'OPTIONS',
                     headers: Util.defaults(defaultHeaders, headers),

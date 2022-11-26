@@ -61,9 +61,14 @@ var Util = {
   }
 };
 var API = class {
-  constructor({ headers, baseUrl, outputParser = JSON.parse, inputParser = JSON.stringify }) {
+  constructor({ headers, baseUrl, outputParser = JSON.parse, inputParser = JSON.stringify, rateLimitHandler }) {
     const get = (url, defaultHeaders, target) => {
       return async (headers2) => {
+        if (rateLimitHandler instanceof Function) {
+          let output = rateLimitHandler();
+          if (output instanceof Promise)
+            await output;
+        }
         const response = await (0, import_node_fetch.default)(url, {
           method: "GET",
           headers: Util.defaults(defaultHeaders, headers2)
@@ -75,6 +80,11 @@ var API = class {
     };
     const head = (url, defaultHeaders) => {
       return async (headers2) => {
+        if (rateLimitHandler instanceof Function) {
+          let output = rateLimitHandler();
+          if (output instanceof Promise)
+            await output;
+        }
         const response = await (0, import_node_fetch.default)(url, {
           method: "HEAD",
           headers: Util.defaults(defaultHeaders, headers2)
@@ -86,6 +96,11 @@ var API = class {
     };
     const post = (url, defaultHeaders) => {
       return async (body, headers2) => {
+        if (rateLimitHandler instanceof Function) {
+          let output = rateLimitHandler();
+          if (output instanceof Promise)
+            await output;
+        }
         const response = await (0, import_node_fetch.default)(url, {
           method: "POST",
           headers: Util.defaults(defaultHeaders, headers2),
@@ -98,6 +113,11 @@ var API = class {
     };
     const put = (url, defaultHeaders) => {
       return async (body, headers2) => {
+        if (rateLimitHandler instanceof Function) {
+          let output = rateLimitHandler();
+          if (output instanceof Promise)
+            await output;
+        }
         const response = await (0, import_node_fetch.default)(url, {
           method: "PUT",
           headers: Util.defaults(defaultHeaders, headers2),
@@ -110,6 +130,11 @@ var API = class {
     };
     const http_delete = (url, defaultHeaders) => {
       return async (body, headers2) => {
+        if (rateLimitHandler instanceof Function) {
+          let output = rateLimitHandler();
+          if (output instanceof Promise)
+            await output;
+        }
         const response = await (0, import_node_fetch.default)(url, {
           method: "DELETE ",
           headers: Util.defaults(defaultHeaders, headers2),
@@ -122,6 +147,11 @@ var API = class {
     };
     const patch = (url, defaultHeaders) => {
       return async (body, headers2) => {
+        if (rateLimitHandler instanceof Function) {
+          let output = rateLimitHandler();
+          if (output instanceof Promise)
+            await output;
+        }
         const response = await (0, import_node_fetch.default)(url, {
           method: "PATCH",
           headers: Util.defaults(defaultHeaders, headers2),
@@ -134,6 +164,11 @@ var API = class {
     };
     const options = (url, defaultHeaders) => {
       return async (body, headers2) => {
+        if (rateLimitHandler instanceof Function) {
+          let output = rateLimitHandler();
+          if (output instanceof Promise)
+            await output;
+        }
         const response = await (0, import_node_fetch.default)(url, {
           method: "OPTIONS",
           headers: Util.defaults(defaultHeaders, headers2),
